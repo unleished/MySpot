@@ -14,6 +14,14 @@
 
   <body>
     <h1>Map Details</h1>
+
+     <ul>
+    <% for (var map of mapInfo) { %>
+            <li>Map Name: <%= map.map_name %></li>
+            <li>Map Location: <%= map.map_location %></li>
+         <% } %>
+    </ul>
+
     <p>Here is the map for a specific ID so you can see all the points and map info. YAY! ANYONE CAN SEE THIS PART</p>
 
     <h3>ONLY FOR AUTH USERS</h3>

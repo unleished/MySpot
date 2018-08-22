@@ -3,16 +3,6 @@
 const express = require('express');
 const router  = express.Router();
 
-function mapNames(rows) {
-  let mapList = [];
-  rows.forEach(row => {
-    // console.log('result text: ', row.first_name, row.last_name);
-    mapList.push(row);
-  })
-  return mapList;
-}
-
-
 module.exports = (knex) => {
   router.get("/", (req, res) => {
     knex
@@ -25,14 +15,27 @@ module.exports = (knex) => {
         var mapDataObj = {
           mapData: rows
         }
-          console.log('mapObject: ', mapDataObj);
-          console.log("rows : " + rows[0]);
-          console.log('mapData: ', mapDataObj.mapData);
-          debugger
         res.render('maps_index', mapDataObj);
     });
   });
 
+  router.get("/:id", (req, res) => {
+
+    knex
+      .select("*")
+      .from("maps")
+      .where('id', req.params.id)
+      // .then((resultText(results) => {
+      //   res.json(results);
+      .asCallback(function(err, rows) {
+        if (err) return console.error(err);
+        var mapDataObj = {
+          mapInfo: rows,
+        }
+
+        res.render('maps_unique', mapDataObj);
+    });
+  });
 
 
 
