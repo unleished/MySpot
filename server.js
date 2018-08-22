@@ -40,7 +40,16 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  console.log(req);
+  var templateVars = {
+    first_name : req.query.firstname
+  }
+  if(req.query.firstname){
+    res.render("index", templateVars);
+  }else{
+    res.sendStatus(403);
+  }
+
 });
 
 app.get("/maps", (req, res) => {
@@ -52,7 +61,7 @@ app.get("/maps/new", (req, res) => {
 });
 
 app.get("/maps/:id", (req, res) => {
-  
+
   res.render("maps_unique");
 });
 
