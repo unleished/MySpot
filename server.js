@@ -36,23 +36,24 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
+app.use("/users", usersRoutes(knex));
+app.use("/maps", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+
+  console.log('id: ', req.params);
+
   res.render("index");
 });
 
-app.get("/maps", (req, res) => {
-  res.render("maps_index");
-});
 
 app.get("/maps/new", (req, res) => {
   res.render("maps_new");
 });
 
 app.get("/maps/:id", (req, res) => {
-  
+
   res.render("maps_unique");
 });
 
