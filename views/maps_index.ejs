@@ -17,11 +17,10 @@
     <p>Here are all the maps that exist on MySpot. So many maps. And anyone can view this page and click into the maps. SHARING IS CARING!</p>
 
     <ul>
-    <% for (var map in mapData) { %>
-            <li><%= map %></li>
+    <% for (var map of mapData) { %>
+            <li><%= map.map_name %></li>
          <% } %>
-
-</ul>
+    </ul>
 
   </body>
 </html>

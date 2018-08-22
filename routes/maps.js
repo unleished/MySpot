@@ -14,7 +14,7 @@ function mapNames(rows) {
 
 
 module.exports = (knex) => {
-  router.get("/maps", (req, res) => {
+  router.get("/", (req, res) => {
     knex
       .select("*")
       .from("maps")
@@ -25,7 +25,10 @@ module.exports = (knex) => {
         var mapDataObj = {
           mapData: rows
         }
-
+          console.log('mapObject: ', mapDataObj);
+          console.log("rows : " + rows[0]);
+          console.log('mapData: ', mapDataObj.mapData);
+          debugger
         res.render('maps_index', mapDataObj);
     });
   });
