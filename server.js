@@ -36,7 +36,8 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
+app.use("/users", usersRoutes(knex));
+app.use("/maps", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
@@ -51,6 +52,8 @@ app.get("/", (req, res) => {
   }
 
 });
+
+
 
 app.get("/maps/new", (req, res) => {
   res.render("maps_new");
