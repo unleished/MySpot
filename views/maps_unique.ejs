@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ./partials/_header.ejs %>
+    <title>Map Details | MySpot</title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+  </head>
+
+  <body>
+    <h1>Map Details</h1>
+    <p>Here is the map for a specific ID so you can see all the points and map info. YAY! ANYONE CAN SEE THIS PART</p>
+
+    <h3>ONLY FOR AUTH USERS</h3>
+    <p>Users can favorite this map by clicking on an icon. that will make this a Fav in the db for the authenticated user. </p>
+    <p>This will have options to:
+      <ul>
+        <li>edit map name</li>
+        <li>edit map location</li>
+        <li>add Map Points. Points will have Title - Desription - Image</li>
+        <li>edit Map Points</li>
+        <li>delete Map Points</li>
+      </ul>
+    </p>
+  </body>
+</html>

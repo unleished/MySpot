@@ -43,6 +43,25 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/maps", (req, res) => {
+  res.render("maps_index");
+});
+
+app.get("/maps/new", (req, res) => {
+  res.render("maps_new");
+});
+
+app.get("/maps/:id", (req, res) => {
+  
+  res.render("maps_unique");
+});
+
+
+app.get("/users/:id", (req, res) => {
+  res.render("user_unique");
+});
+
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
