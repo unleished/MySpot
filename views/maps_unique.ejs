@@ -16,34 +16,63 @@
   <body>
     <h1>Map Details</h1>
 
-
     <% for (var ourMap of mapInfo) { %>
             <h2>Map Name: <%= ourMap.map_name %></h2>
             <% var latitude = ourMap.map_lat %>
             <% var longitude = ourMap.map_long %>
          <% } %>
-
-
-
+    <div id="floating-panel">
+      <input id="address" type="textbox" value="Sydney, NSW">
+      <input id="submit" type="button" value="Geocode">
+    </div>
     <div id="map"></div>
+
     <script>
-     function initMap() {
-       var map;
-       var marker;
-       map = new google.maps.Map(document.getElementById('map'), {
+
+      function storePoint(latlong){
+         var lat = latlong.lat();
+         var lng = latlong.lng();
+      }
+      function initMap() {
+         var map;
+         var marker;
+      //initiate overall map
+        map = new google.maps.Map(document.getElementById('map'), {
          center: {lat: <%= latitude %>,lng: <%= longitude %>},
          zoom: 12
        });
-
-       <% for (var ourPoint of pointInfo) { %>
+       //loop through points info to add all existing markers
+        <% for (var ourPoint of pointInfo) { %>
             marker = new google.maps.Marker({
               position: {lat: <%= ourPoint.point_lat %>, lng: <%= ourPoint.point_long %> },
               map: map,
-
               title: '<%= ourPoint.point_name %>'
             });
-            <% } %>
+        <% } %>
+        //user is able to enter address to create new marker
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
       };
+      //if address exists, add marker to map
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            storePoint(results[0].geometry.location);
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }//end of geocodeAdress function
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxv_lcD-DJGOKruhMUYLFKU_LPzP1z8bQ&callback=initMap"></script>
 
