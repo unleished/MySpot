@@ -13,18 +13,10 @@ module.exports = (knex) => {
         .where('id', req.params.id)
         .then(function(rows) {
           return rows;
-
-          // var userDataObj = {
-          //   userData: rows
-          // }
-          // res.render('users_unique', userDataObj);
-          // // res.json(rows);
         })
         .catch(function (err) {
           return console.error(err);
         }),
-    // });
-
       knex('users')
         .select('maps.id', 'maps.map_name')
         .join('user_map', 'users.id', '=', 'user_map.user_id')
@@ -33,7 +25,6 @@ module.exports = (knex) => {
         .then(function(userMapRows) {
           return userMapRows;
         }),
-
       knex('users')
         .select('maps.id', 'maps.map_name')
         .join('favorite', 'users.id', '=', 'favorite.user_id')
@@ -50,9 +41,7 @@ module.exports = (knex) => {
           userFavs: result[2].length === 0 ? false : result[2]
         }
         res.render('users_unique', userDataObj);
-        // res.json(mapDataObj);
       })
     })
-
   return router;
 }
