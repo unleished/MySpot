@@ -1,11 +1,19 @@
-body {
-  background-color: #EEE;
-
-.logo {
-  width: 50px;
+html, body {
+ background-color: #EEE;
+ height: 100%;
+ margin: 0;
+ padding: 0;
 }
 
-  h1 {
-    color: #244751;
-  }
+body .logo {
+ width: 50px;
+}
+
+body h1 {
+ color: #244751;
+}
+
+#map {
+ height: 50%;
+ width: 50%;
 }
