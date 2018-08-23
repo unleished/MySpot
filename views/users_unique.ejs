@@ -13,10 +13,20 @@
   </head>
 
   <body>
-    <h1>User Specific Details</h1>
+    <% for (var userInfo of userData) { %>
+      <h1><%= userInfo.first_name %>'s Map Details</h1>
+    <% } %>
     <h3>Map List</h3>
-      <p>Here is a list of all the maps I have contributed to.</p>
-    <h3>Favorite Maps</h3>
-      <p>Here is a list of all the maps I have marked as favorite.</p>
+    <% for (var userMapInfo of userMapRows) { %>
+      <p><a href="/maps/<%=userMapInfo.id%>"><%= userMapInfo.map_name %></a></p>
+    <% } %>
+
+    <% if (userFavs) { %>
+      <h3>Favorite Maps</h3>
+        <% for (var favorite of userFavs) { %>
+          <p><a href="/maps/<%=favorite.id%>"><%= favorite.map_name %></a></p>
+        <% } %>
+    <% } else { %>
+    <% } %>
   </body>
 </html>
