@@ -30,9 +30,26 @@
     <script>
 
       function storePoint(latlong){
-         var lat = latlong.lat();
-         var lng = latlong.lng();
+         let lat = latlong.lat();
+         let lng = latlong.lng();
+         let data = {
+                    lat: lat,
+                    lng: lng
+                    };
+
+         $.ajax({
+            type: "POST",
+            url: '/points',
+            data: data
+            })
+            .done(function() {
+              alert( "success!" );
+              })
+            .fail(function() {
+              alert( "error" );
+              })
       }
+
       function initMap() {
          var map;
          var marker;
