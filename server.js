@@ -56,19 +56,19 @@ app.get("/", (req, res) => {
 
 
 
-app.get("/maps/new", (req, res) => {
-  res.render("maps_new");
-});
+// app.get("/maps/new", (req, res) => {
+//   res.render("maps_new");
+// });
 
-app.get("/maps/:id", (req, res) => {
+// app.get("/maps/:id", (req, res) => {
 
-  res.render("maps_unique");
-});
+//   res.render("maps_unique");
+// });
 
 
-app.get("/users/:id", (req, res) => {
-  res.render("user_unique");
-});
+// app.get("/users/:id", (req, res) => {
+//   res.render("user_unique");
+// });
 
 
 app.listen(PORT, () => {

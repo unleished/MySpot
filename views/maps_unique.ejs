@@ -20,6 +20,7 @@
             <h2>Map Name: <%= ourMap.map_name %></h2>
             <% var latitude = ourMap.map_lat %>
             <% var longitude = ourMap.map_long %>
+
          <% } %>
     <div id="floating-panel">
       <input id="address" type="textbox" value="Sydney, NSW">
@@ -32,11 +33,13 @@
       function storePoint(latlong){
          let lat = latlong.lat();
          let lng = latlong.lng();
+
          let data = {
                     lat: lat,
-                    lng: lng
+                    lng: lng,
+                    id: <%=ourMap.id %>
                     };
-
+                    console.log(data);
          $.ajax({
             type: "POST",
             url: '/points',
