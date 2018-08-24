@@ -21,11 +21,18 @@
 
     <div id="floating-panel">
       <input id="address" type="textbox" value="Montreal, QC">
-      <input id="submit" type="button" value="Set your map center">
+      <input id="submit" onclick="change()" type="button" value="Set your map center!">
     </div>
     <div id="map"></div>
 
     <script>
+
+      function change()
+      {
+        var elem = document.getElementById("submit");
+        if (elem.value=="Set your map center!") elem.value = "Set your marker!";
+        else elem.value = "Set your map center";
+      }
       function storePoint(latlong){
          let lat = latlong.lat();
          let lng = latlong.lng();
@@ -34,7 +41,6 @@
                     lng: lng,
                     id: <%=ourMap.id %>
                     };
-                    console.log(data);
          $.ajax({
             type: "POST",
             url: '/points',
@@ -54,27 +60,31 @@
          zoom: 12
 
        });
-        var contentString = 'WeWork- where we code all day!';
+
+
 
        // loop through points info to add all existing markers
         <% for (var ourPoint of pointInfo) { %>
-           var marker = new google.maps.Marker({
+            var point = new google.maps.Marker({
               position: {lat: <%= ourPoint.point_lat %>, lng: <%= ourPoint.point_long %> },
               map: map,
               title: '<%= ourPoint.point_name %>'
             });
+
+            var infowindow = new google.maps.InfoWindow({
+            content: '<%= ourPoint.point_description %>'
+            });
+
+           google.maps.event.addListener(point, 'click', (function(point, ourPoint) {
+            return function() {
+              infowindow.open(map, point);
+            }
+            }) (point, <%=ourPoint.length %>));
         <% } %>
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-        var Testmarker = new google.maps.Marker({
-          position: {lat: 45.4963839, lng: -73.5727852 },
-          map: map,
-        });
-        Testmarker.addListener('click', function() {
-          infowindow.open(map, Testmarker);
-        });
+           // point.addListener('click', function() {
+           //    infowindow.open(map, point);
+           //  });
         //user is able to enter address to create new marker
         var geocoder = new google.maps.Geocoder();
         document.getElementById('submit').addEventListener('click', function() {
@@ -89,8 +99,7 @@
             resultsMap.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
               map: resultsMap,
-              position: results[0].geometry.location,
-              title: "testing marker"
+              position: results[0].geometry.location
             });
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
