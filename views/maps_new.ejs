@@ -13,9 +13,85 @@
   </head>
 
   <body>
+  <script>
+
+    function storeMap(latlong){
+         let lat = latlong.lat();
+         let lng = latlong.lng();
+
+         let data = {
+                    lat: lat,
+                    lng: lng,
+                    id: <%=ourMap.id %>
+                    };
+                    console.log(data);
+         $.ajax({
+            type: "POST",
+            url: '/maps',
+            data: data
+            })
+            .done(function() {
+              alert( "success!" );
+              })
+            .fail(function() {
+              alert( "error" );
+              })
+      }
+
+        // document.getElementById('submit').addEventListener('click', function() {
+        //   geocodeAddress(geocoder, map);
+        //   initMap();
+        // });
+
+
+      function initMap() {
+         var map;
+         var marker;
+      //initiate overall map
+        map = new google.maps.Map(document.getElementById('map'), {
+         center: {lat:,lng: },
+         zoom: 12
+       });
+       //loop through points info to add all existing markers
+        <% for (var ourPoint of pointInfo) { %>
+            marker = new google.maps.Marker({
+              position: {lat: <%= ourPoint.point_lat %>, lng: <%= ourPoint.point_long %> },
+              map: map,
+              title: '<%= ourPoint.point_name %>'
+            });
+        <% } %>
+        //user is able to enter address to create new marker
+        var geocoder = new google.maps.Geocoder();
+         document.getElementById('submit').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
+      };
+
+
+      //if address exists, add marker to map
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            storePoint(results[0].geometry.location);
+            resultsMap.setCenter(results[0].geometry.location);
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }//end of geocodeAdress function
+  </script>
+
+
     <h1>Create a Map</h1>
     <p>This is only visible to authenticated users</p>
     <p>Here is a form to create a new map. This will then direct you to /maps/id</p>
+     <div id="floating-panel">
+      <input id="address" type="textbox" value="Montreal, QC">
+      <input id="submit" type="button" value="Geocode">
+    </div>
+
+
 
   </body>
 </html>
