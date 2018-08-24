@@ -8,8 +8,6 @@ module.exports = (knex) => {
     knex
       .select("*")
       .from("maps")
-      // .then((resultText(results) => {
-      //   res.json(results);
       .asCallback(function(err, rows) {
         if (err) return console.error(err);
         var mapDataObj = {
@@ -22,12 +20,13 @@ module.exports = (knex) => {
   router.get("/new", (req, res) => {
     var mapDataObj = {
       userId: req.cookies.user_id
-
-      // mapData: rows
-      // mapInfo: result[0],
-      // pointInfo: result[1]
       }
+    if (mapDataObj.userId) {
       res.render("maps_new", mapDataObj);
+    } else {
+      res.redirect('/');
+    }
+
   });
 
   router.get("/:id", (req, res) => {
@@ -83,14 +82,20 @@ module.exports = (knex) => {
              map_id: Number(id),
              user_id: userId
            }
-        console.log('userMapAdd Obj: ', userMapAdd);
+        // console.log('userMapAdd Obj: ', userMapAdd);
         knex('user_map')
           .insert(userMapAdd)
           .then(function() {
-        res.status(201).send('full promises success');
+            // res.status(201).send('full promises success');
+        // res.render('maps_unique', mapDataObj)
+        res.redirect('/maps/'+userMapAdd.map_id);
         })
       })
     ])
+
+      // function() {
+      // res.redirect('/maps/'+userMapAdd.map_id);
+
   })
 
   return router;

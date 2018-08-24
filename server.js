@@ -51,11 +51,11 @@ app.get("/", (req, res) => {
   var templateVars = {
     userId : userId
   }
-  if(userId) {
+  // if(userId) {
     res.render("index", templateVars);
-  }else{
-    res.sendStatus(403);
-  }
+  // }else{
+  //   res.sendStatus(403);
+  // }
 });
 
 app.get('/login/:id', (req, res) => {

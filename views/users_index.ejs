@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <% include ./partials/_header.ejs %>
-    <title>Maps | MySpot</title>
+    <title>Users | MySpot</title>
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -13,11 +13,11 @@
   </head>
 
   <body>
-    <h1>Maps</h1>
-    <p>Here are all the maps that exist on MySpot.</p>
+    <h1>Users</h1>
+    <p>Here are all the users of MySpot.</p>
 
-    <% for (var map of mapData) { %>
-        <h3><a href="/maps/<%=map.id%>"><%= map.map_name %></a></h3>
+    <% for (var user of userData) { %>
+        <h3><a href="/users/<%=user.id%>"><%= user.first_name %></a></h3>
     <% } %>
 
   </body>
