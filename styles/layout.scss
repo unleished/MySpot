@@ -1,21 +1,36 @@
+#nav {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  color: white;
+  background-color: #3A445D;
+  padding: 0 2em;
+}
+#hide {
+  padding-top: 50px;
+}
+
 html, body {
  background-color: #EEE;
  height: 100%;
  margin: 0;
- padding: 0;
+ padding: 0 1em;
 }
 
-body .logo {
- width: 50px;
-}
+// body .logo {
+//  width: 50px;
+// }
 
-body h1 {
- color: #244751;
+h1, h2 {
+  color: #5E5768;
 }
 
 #map {
  height: 50%;
  width: 50%;
 }
-
-
