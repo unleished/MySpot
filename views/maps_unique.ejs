@@ -10,21 +10,18 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
-
-
   </head>
 
   <body>
-    <h1>Map Details</h1>
-
     <% for (var ourMap of mapInfo) { %>
-            <h2>Map Name: <%= ourMap.map_name %></h2>
+            <h1> <%= ourMap.map_name %></h1>
             <% var latitude = ourMap.map_lat %>
             <% var longitude = ourMap.map_long %>
          <% } %>
+
     <div id="floating-panel">
-      <input id="address" type="textbox" value="Sydney, NSW">
-      <input id="submit" type="button" value="Geocode">
+      <input id="address" type="textbox" value="Montreal, QC">
+      <input id="submit" type="button" value="Set your map center">
     </div>
     <div id="map"></div>
 
@@ -51,14 +48,14 @@
               })
       }
       function initMap() {
-         var map;
-
       //initiate overall map
-        map = new google.maps.Map(document.getElementById('map'), {
+        var map = new google.maps.Map(document.getElementById('map'), {
          center: {lat: <%= latitude %>,lng: <%= longitude %>},
          zoom: 12
 
        });
+        var contentString = 'WeWork- where we code all day!';
+
        // loop through points info to add all existing markers
         <% for (var ourPoint of pointInfo) { %>
            var marker = new google.maps.Marker({
@@ -67,30 +64,21 @@
               title: '<%= ourPoint.point_name %>'
             });
         <% } %>
-        //user is able to enter address to create new marker
 
-        var infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService(map);
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        var Testmarker = new google.maps.Marker({
+          position: {lat: 45.4963839, lng: -73.5727852 },
+          map: map,
+        });
+        Testmarker.addListener('click', function() {
+          infowindow.open(map, Testmarker);
+        });
+        //user is able to enter address to create new marker
         var geocoder = new google.maps.Geocoder();
         document.getElementById('submit').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
-        });
-
-       service.getDetails({
-          placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'
-        }, function(place, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            var marker = new google.maps.Marker({
-              map: map,
-              position: place.geometry.location
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-              infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                'Place ID: ' + place.place_id + '<br>' +
-                place.formatted_address + '</div>');
-              infowindow.open(map, this);
-            });
-          }
         });
       //if address exists, add marker to map
       function geocodeAddress(geocoder, resultsMap) {
@@ -101,7 +89,8 @@
             resultsMap.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
               map: resultsMap,
-              position: results[0].geometry.location
+              position: results[0].geometry.location,
+              title: "testing marker"
             });
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
