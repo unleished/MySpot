@@ -3,95 +3,77 @@
   <head>
     <% include ./partials/_header.ejs %>
     <title>Create Map | MySpot</title>
-
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
-
   <body>
-  <script>
+    <h1>Create a Map</h1>
+    <p>This is only visible to authenticated users</p>
+    <p>Select the location you would like to create a map of</p>
 
-    function storeMap(latlong){
-         let lat = latlong.lat();
-         let lng = latlong.lng();
+     <div id="floating-panel">
+      <input id="mapName" type="textbox" name="mapName" value="My Map">
+      <input id="address" type="textbox" value="Montreal, QC">
+      <input id="submit" type="button" value="Geocode">
+    </div>
+    <div id="map"></div>
 
-         let data = {
-                    lat: lat,
-                    lng: lng,
-                    id: <%=ourMap.id %>
-                    };
-                    console.log(data);
-         $.ajax({
-            type: "POST",
-            url: '/maps',
-            data: data
-            })
-            .done(function() {
-              alert( "success!" );
-              })
-            .fail(function() {
-              alert( "error" );
-              })
+    <script>
+
+    function storeMap(latlong, mapName){
+      let lat = latlong.lat();
+      let lng = latlong.lng();
+
+      let newMapObj = {
+        lat: lat,
+        lng: lng,
+        newMapName: mapName
+        };
+        // console.log('text?: ', req.content.text)
+        console.log('newMapObject: ', newMapObj);
+
+      $.ajax({
+        type: "POST",
+        url: '/maps',
+        data: newMapObj
+        })
+        .done(function() {
+          alert( "New Map Submit success!" );
+        })
+        .fail(function() {
+          alert( "new map submit error" );
+        })
       }
 
-        // document.getElementById('submit').addEventListener('click', function() {
-        //   geocodeAddress(geocoder, map);
-        //   initMap();
-        // });
 
+    function initMap() {
+      var map;
 
-      function initMap() {
-         var map;
-         var marker;
       //initiate overall map
-        map = new google.maps.Map(document.getElementById('map'), {
-         center: {lat:,lng: },
-         zoom: 12
-       });
-       //loop through points info to add all existing markers
-        <% for (var ourPoint of pointInfo) { %>
-            marker = new google.maps.Marker({
-              position: {lat: <%= ourPoint.point_lat %>, lng: <%= ourPoint.point_long %> },
-              map: map,
-              title: '<%= ourPoint.point_name %>'
-            });
-        <% } %>
-        //user is able to enter address to create new marker
-        var geocoder = new google.maps.Geocoder();
-         document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
-      };
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 45.4859178,lng: -73.5819195},
+        zoom: 12
+      });
 
+      //user is able to enter address to create new marker
+      var geocoder = new google.maps.Geocoder();
+      document.getElementById('submit').addEventListener('click', function() {
+        geocodeAddress(geocoder, map, document.getElementById('mapName').value);
+      });
 
       //if address exists, add marker to map
-      function geocodeAddress(geocoder, resultsMap) {
+      function geocodeAddress(geocoder, resultsMap, mapName) {
         var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === 'OK') {
-            storePoint(results[0].geometry.location);
+            storeMap(results[0].geometry.location, mapName);
             resultsMap.setCenter(results[0].geometry.location);
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
           }
         });
-      }//end of geocodeAdress function
+      }
+    };
   </script>
-
-
-    <h1>Create a Map</h1>
-    <p>This is only visible to authenticated users</p>
-    <p>Here is a form to create a new map. This will then direct you to /maps/id</p>
-     <div id="floating-panel">
-      <input id="address" type="textbox" value="Montreal, QC">
-      <input id="submit" type="button" value="Geocode">
-    </div>
-
-
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxv_lcD-DJGOKruhMUYLFKU_LPzP1z8bQ&callback=initMap&libraries=places"></script>
 
   </body>
 </html>
