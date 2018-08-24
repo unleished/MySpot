@@ -1,6 +1,8 @@
 "use strict";
 
 require('dotenv').config();
+var cookieParser = require('cookie-parser')
+
 
 const PORT        = process.env.PORT || 8080;
 const ENV         = process.env.ENV || "development";
@@ -23,6 +25,7 @@ const pointRoutes = require("./routes/points");
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
+app.use(cookieParser());
 
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
@@ -44,17 +47,26 @@ app.use("/points", pointRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+  var userId = req.cookies.user_id
   var templateVars = {
-    first_name : req.query.firstname
+    userId : userId
   }
-  if(req.query.firstname){
+  if(userId) {
     res.render("index", templateVars);
   }else{
     res.sendStatus(403);
   }
 });
 
+app.get('/login/:id', (req, res) => {
+res.cookie('user_id', req.params.id)
 
+  if(req.params.id){
+    res.redirect("/");
+  }else{
+    res.sendStatus(403);
+  }
+});
 
 // app.get("/maps/new", (req, res) => {
 //   res.render("maps_new");
