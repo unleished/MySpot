@@ -5,8 +5,17 @@ const router  = express.Router();
 
 module.exports = (knex) => {
  router.get("/", (req, res) =>{
-  res.send("helloeee");
- })
+   knex
+     .select("*")
+     .from("users")
+     .asCallback(function(err, rows) {
+       if (err) return console.error(err);
+       var userInfoObj = {
+         userData: rows
+       }
+       res.render('users_index', userInfoObj);
+     })
+   })
 
   router.get("/:id", (req, res) => {
     Promise.all([

@@ -3,16 +3,17 @@
   <head>
     <% include ./partials/_header.ejs %>
     <title>Home Page</title>
-
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
     <h1>Welcome to MySpot!</h1>
+    <container id="wrapper">
+      <div id='left'>
+        <h2><a href="/maps" class="hideme"><i class="fas fa-map-pin"></i> View Maps</a></h2>
+      </div>
+      <div id='right'>
+        <h2><a href="/users" class="hideme"><i class="far fa-user"></i> View Users</a></h2>
+      </div>
+    </container>
   </body>
 </html>

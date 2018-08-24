@@ -15,8 +15,42 @@
   color: white;
 }
 
+.hideme {
+  text-decoration: none;
+  color: inherit;
+}
+
 #hide {
   padding-top: 80px;
+}
+
+@media (max-width: 450px){
+  #wrapper {
+    
+  }
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+#left {
+  align-items: center;
+  // border-radius: 15px;
+  // border-style: solid;
+  // border-color: #5E5768;
+  margin: .5em;
+  padding: 1em;
+}
+#right {
+  // flex: 1;
+  align-items: center;
+  // border-radius: 15px;
+  // border-style: solid;
+  // border-color: #5E5768;
+  margin: .5em;
+  padding: 1em;
 }
 
 html, body {
