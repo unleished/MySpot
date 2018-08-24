@@ -6,13 +6,17 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
-  color: white;
+  height: 80px;
   background-color: #3A445D;
   padding: 0 2em;
 }
+
+#nav h1{
+  color: white;
+}
+
 #hide {
-  padding-top: 50px;
+  padding-top: 80px;
 }
 
 html, body {
@@ -20,17 +24,36 @@ html, body {
  height: 100%;
  margin: 0;
  padding: 0 1em;
+ font-family: 'Montserrat', sans-serif;
+ font-family: 'Raleway', sans-serif;
 }
-
-// body .logo {
-//  width: 50px;
-// }
 
 h1, h2 {
   color: #5E5768;
 }
 
+#floating-panel {
+  padding: .5em;
+}
+
+#address {
+  border-radius: 3px;
+}
+
+#submit {
+  border-radius: 3px;
+}
+
 #map {
- height: 50%;
- width: 50%;
+  border-radius: 10px;
+  height: 50%;
+  width: 85%;
+}
+
+@media (max-width: 850px){
+  #map {
+    border-radius: 10px;
+    height: 50%;
+    width: 100%;
+  }
 }
