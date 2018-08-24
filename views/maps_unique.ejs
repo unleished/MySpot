@@ -60,10 +60,8 @@
          zoom: 12
 
        });
-        var content = 'WeWork- where we code all day!';
-        var infowindow = new google.maps.InfoWindow({
-          content: content
-        });
+
+
 
        // loop through points info to add all existing markers
         <% for (var ourPoint of pointInfo) { %>
@@ -72,9 +70,13 @@
               map: map,
               title: '<%= ourPoint.point_name %>'
             });
+
+            var infowindow = new google.maps.InfoWindow({
+            content: '<%= ourPoint.point_description %>'
+            });
+
            google.maps.event.addListener(point, 'click', (function(point, ourPoint) {
             return function() {
-              infowindow.setContent("testing content string");
               infowindow.open(map, point);
             }
             }) (point, <%=ourPoint.length %>));
