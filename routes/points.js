@@ -39,6 +39,25 @@ module.exports = (knex) => {
 
   });
 
+  router.post("/edit", (req, res) => {
+      let update_point = {
+        point_id: req.body.id,
+        point_name: req.body.point_name,
+        point_description: req.body.point_description,
+        point_long: req.body.lng,
+        point_lat: req.body.lat,
+      }
+
+        Promise.all([
+        knex('points')
+        .update(update_point)
+        .where(point_id, 'req.body.id')
+        .then(function() {
+          res.status(201).send('full promises success');
+        })
+      ])
+  })
+
   return router;
 
 }

@@ -4,20 +4,65 @@
     <% include ./partials/_header.ejs %>
     <title>Map Details | MySpot</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
     <% for (var ourMap of mapInfo) { %>
-            <h1> <%= ourMap.map_name %></h1>
+            <% var mapName = ourMap.map_name %>
+            <% var mapID = ourMap.id %>
             <% var latitude = ourMap.map_lat %>
             <% var longitude = ourMap.map_long %>
+            <% var mapID = ourMap.id %>
          <% } %>
+
+             <div id="favorites">
+      <div id='fav'>
+        <i class="fas fa-heart"></i>
+      </div>
+      <div id='notfav'>
+        <i class="far fa-heart"></i>
+      </div>
+    </div>
+
+
+    <script>
+    $("#fav").hide();
+    $("#favorites").click(function() {
+      $("#notfav").hide();
+      $("#fav").show();
+      storefav();
+
+    });
+
+    function storefav(mapid){
+
+      let newFavMap = {
+        favMapId: <%= ourMap.id %>
+        };
+        //
+
+      $.ajax({
+        type: "POST",
+        url: '/favorite',
+        data: newFavMap
+      })
+      .done(function() {
+        alert( "fav success!" );
+      })
+      .fail(function() {
+        alert( "fav error" );
+      })
+    }
+    </script>
+
+    <% if (hasFavorite) { %>
+      <script>
+      $("#fav").show();
+      $("#notfav").hide();
+      </script>
+      <% } %>
+
+<h1> <%= mapName %></h1>
 
     <div id="floating-panel">
       <input id="address" type="textbox" value="Montreal, QC">
@@ -36,10 +81,15 @@
       function storePoint(latlong){
          let lat = latlong.lat();
          let lng = latlong.lng();
+
+         let img = addImage();
          let data = {
-                    lat: lat,
+                    id: '<%=mapID %>',
+                    name: 'Point',
+                    description: 'Description',
+                    image: img,
                     lng: lng,
-                    id: <%=ourMap.id %>
+                    lat: lat
                     };
          $.ajax({
             type: "POST",
@@ -53,6 +103,22 @@
               alert( "error" );
               })
       }
+      function editPoint(update){
+        var obj = update;
+
+        $.ajax({
+            type: "POST",
+            url: '/points',
+            data: obj
+            })
+            .done(function() {
+              alert( "success!" );
+              })
+            .fail(function() {
+              alert( "error" );
+              })
+        }
+
       function initMap() {
       //initiate overall map
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -60,8 +126,6 @@
          zoom: 12
 
        });
-
-
 
        // loop through points info to add all existing markers
         <% for (var ourPoint of pointInfo) { %>
@@ -71,8 +135,11 @@
               title: '<%= ourPoint.point_name %>'
             });
 
+            // var infowindow = new google.maps.InfoWindow({
+            // content: '<div style='float:left'><img src='<%= ourPoint.point_image %>'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>123 Address<br/> <%= ourPoint.point_description %></div>'
+            // });
             var infowindow = new google.maps.InfoWindow({
-            content: '<%= ourPoint.point_description %>'
+            content: "<div style='float:left'><img src='<%= ourPoint.point_image %>'></div><div style='float:right; padding: 10px;'><b><%= ourPoint.point_name %></b><br/>123 Address<br/> <%= ourPoint.point_description %></div>"
             });
 
            google.maps.event.addListener(point, 'click', (function(point, ourPoint) {
@@ -108,13 +175,41 @@
       }//end of geocodeAdress function
     }
 
+    document.getElementById('submit').addEventListener('click', function(){
+      var updatedPointInfo = {
+       point_id: document.getElementById('point_id').value,
+       point_name: document.getElementById('point_name').value,
+       point_description: document.getElementById('point_description').value,
+       point_long:  document.getElementById('point_long').value,
+       point_lat : document.getElementById('point_lat').value
+      }
+      editPoint(updatedPointInfo);
+    })
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxv_lcD-DJGOKruhMUYLFKU_LPzP1z8bQ&callback=initMap&libraries=places"></script>
 
 
     <p>Here is the map for a specific ID so you can see all the points and map info. YAY! ANYONE CAN SEE THIS PART</p>
 
-    <h3>ONLY FOR AUTH USERS</h3>
+    <h3>Update a Point</h3>
+      <form action="/">
+        Point_id:<br>
+        <input type="text" name="point_id">
+        <br>
+        Point Name:<br>
+        <input type="text" name="point_name">
+        <br>
+        Description:<br>
+        <input type="text" name="point_description">
+        <br>
+        Longitude:<br>
+        <br>
+        <input type="text" name="point_long">
+        <br>Latitude<br>
+        <input type="text" name="point_lat">
+        <input type="submit" value="submit">
+      </form>
+
     <p>Users can favorite this map by clicking on an icon. that will make this a Fav in the db for the authenticated user. </p>
     <p>This will have options to:
       <ul>

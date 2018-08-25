@@ -3,6 +3,7 @@ exports.up = function(knex, Promise) {
     table.increments('point_id').primary();
     table.string('point_name');
     table.string('point_description');
+    table.string('point_image');
     table.string('point_lat');
     table.string('point_long');
   });

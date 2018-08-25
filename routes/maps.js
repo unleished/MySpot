@@ -53,15 +53,33 @@ module.exports = (knex) => {
         .where('maps.id', req.params.id)
         .then(function(pointRows) {
         return pointRows;
+        }),
+      knex
+        .select("map_id")
+        .from("favorite")
+        .where(function() {
+          this.where("user_id", req.cookies.user_id).andWhere("map_id", req.params.id)
+        })
+        .then(function(rows) {
+          console.log('rows: ', rows)
+          return rows;
+        })
+        .catch(function (err) {
+          return console.error(err);
         })
     ])
     //this returns the map and map point info to the ejs
     .then((result) => {
       var mapDataObj = {
         mapInfo: result[0],
-        pointInfo: result[1]
+        pointInfo: result[1],
+        hasFavorite: result[2].length === 0 ? false : result[2]
       }
+      console.log(mapDataObj);
       res.render('maps_unique', mapDataObj);
+    })
+    .catch((err) => {
+      console.log(err);
     })
   }); //end of map id GET request
 
