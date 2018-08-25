@@ -143,9 +143,10 @@ module.exports = (knex) => {
         knex('user_map')
           .insert(userMapAdd)
           .then(function() {
+            res.json({id: userMapAdd.map_id})
             // res.status(201).send('full promises success');
         // res.render('maps_unique', mapDataObj)
-        res.redirect('/maps/'+userMapAdd.map_id);
+        // res.redirect('/maps/'+userMapAdd.map_id);
         })
       })
     ])

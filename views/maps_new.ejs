@@ -6,8 +6,7 @@
   </head>
   <body>
     <h1>Create a Map</h1>
-    <p>This is only visible to authenticated users</p>
-    <p>Select the location you would like to create a map of</p>
+    <p>Name your map and select the location you would like to create a map of</p>
 
      <div id="floating-panel">
       <input id="mapName" type="textbox" name="mapName" value="My Map">
@@ -27,18 +26,16 @@
         lng: lng,
         newMapName: mapName
         };
-        // console.log('text?: ', req.content.text)
-        // console.log('newMapObject: ', newMapObj);
 
       $.ajax({
         type: "POST",
         url: '/maps',
         data: newMapObj
         })
-        .done(function() {
-          alert( "New Map Submit success!" );
+        .done(function(response) {
+          window.location.replace("/maps/"+response.id);
         })
-        .fail(function() {
+        .fail(function(error) {
           alert( "new map submit error" );
         })
       }
