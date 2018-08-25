@@ -89,7 +89,8 @@ module.exports = (knex) => {
         .where('maps.id', req.params.id)
         .then(function(pointRows) {
         return pointRows;
-      }),
+
+        }),
 
       knex
         .select("map_id")
@@ -104,7 +105,6 @@ module.exports = (knex) => {
         .catch(function (err) {
           return console.error(err);
         })
-
     ])
     //this returns the map and map point info to the ejs
     .then((result) => {
