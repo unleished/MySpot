@@ -32,42 +32,6 @@ module.exports = (knex) => {
 
   router.get("/:id", (req, res) => {
 
-    // function isFavMap(list) {
-
-
-
-
-
-    //   var favMap;
-    //   for (var fav of list) {
-    //     console.log("in fav loop: ", fav);
-    //     console.log("fav.map_id ", fav.map_id);
-    //     if (fav.map_id === req.params.id) {
-    //       console.log(fav.map_id)
-    //       favMap = true;
-    //     } else {
-    //       favMap = false;
-    //     }
-    //     console.log(favMap);
-    //     return favMap;
-    //   }
-    // }
-    // knex
-    //   .select("map_id")
-    //   .from("favorite")
-    //   .where(function() {
-    //     this.where("user_id", req.cookies.user_id).andWhere("map_id", req.params.id)
-    //   })
-    //   .then(function(rows) {
-    //     console.log('rows: ', rows)
-    //     return rows;
-    //   })
-    //   .catch(function (err) {
-    //     return console.error(err);
-    //   }),
-
-
-
     Promise.all([
       // this shows the map info by MAP ID
       knex
@@ -89,9 +53,8 @@ module.exports = (knex) => {
         .where('maps.id', req.params.id)
         .then(function(pointRows) {
         return pointRows;
-
         }),
-
+        // this shows if a map and a user id are matched on the favorites table.
       knex
         .select("map_id")
         .from("favorite")
@@ -139,20 +102,14 @@ module.exports = (knex) => {
              map_id: Number(id),
              user_id: userId
            }
-        // console.log('userMapAdd Obj: ', userMapAdd);
         knex('user_map')
           .insert(userMapAdd)
           .then(function() {
             res.json({id: userMapAdd.map_id})
-            // res.status(201).send('full promises success');
-        // res.render('maps_unique', mapDataObj)
-        // res.redirect('/maps/'+userMapAdd.map_id);
+
         })
       })
     ])
-
-      // function() {
-      // res.redirect('/maps/'+userMapAdd.map_id);
 
   })
 

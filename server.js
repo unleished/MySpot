@@ -46,12 +46,7 @@ app.use(express.static("public"));
 app.use("/users", usersRoutes(knex));
 app.use("/maps", mapRoutes(knex));
 app.use("/points", pointRoutes(knex));
-<<<<<<< HEAD
-// app.use("/place", placeRoutes(knex));
 app.use("/favorite", favoriteRoutes(knex))
-=======
->>>>>>> feature/imageToMarker
-
 
 
 // Home page
@@ -60,11 +55,7 @@ app.get("/", (req, res) => {
   var templateVars = {
     userId : userId
   }
-  // if(userId) {
     res.render("index", templateVars);
-  // }else{
-  //   res.sendStatus(403);
-  // }
 });
 
 app.get('/login/:id', (req, res) => {
@@ -76,20 +67,6 @@ res.cookie('user_id', req.params.id)
     res.sendStatus(403);
   }
 });
-
-// app.get("/maps/new", (req, res) => {
-//   res.render("maps_new");
-// });
-
-// app.get("/maps/:id", (req, res) => {
-
-//   res.render("maps_unique");
-// });
-
-
-// app.get("/users/:id", (req, res) => {
-//   res.render("user_unique");
-// });
 
 
 app.listen(PORT, () => {

@@ -3,15 +3,12 @@
   <head>
     <% include ./partials/_header.ejs %>
     <title>Map Details | MySpot</title>
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/imageToMarker
   </head>
   <body>
 
     <% for (var ourMap of mapInfo) { %>
-<<<<<<< HEAD
+
         <% var mapName = ourMap.map_name %>
         <% var mapID = ourMap.id %>
         <% var latitude = ourMap.map_lat %>
@@ -29,26 +26,6 @@
       </div>
     </div>
 
-
-=======
-            <% var mapName = ourMap.map_name %>
-            <% var mapID = ourMap.id %>
-            <% var latitude = ourMap.map_lat %>
-            <% var longitude = ourMap.map_long %>
-            <% var mapID = ourMap.id %>
-         <% } %>
-
-             <div id="favorites">
-      <div id='fav'>
-        <i class="fas fa-heart"></i>
-      </div>
-      <div id='notfav'>
-        <i class="far fa-heart"></i>
-      </div>
-    </div>
-
-
->>>>>>> feature/imageToMarker
     <script>
     $("#fav").hide();
     $("#favorites").click(function() {
@@ -87,17 +64,71 @@
       <% } %>
 
 <h1> <%= mapName %></h1>
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/imageToMarker
     <div id="floating-panel">
       <input id="address" type="textbox" value="Montreal, QC">
       <input id="submit" onclick="change()" type="button" value="Set Map Pin">
     </div>
     <div id="map"></div>
 
-    <script>
+<script>
+function initMap() {
+  //initiate overall map
+    var map = new google.maps.Map(document.getElementById('map'), {
+     center: {lat: <%= latitude %>,lng: <%= longitude %>},
+     zoom: 12
+
+   });
+
+   // loop through points info to add all existing markers
+    <% for (var ourPoint of pointInfo) { %>
+        var point = new google.maps.Marker({
+          position: {lat: <%= ourPoint.point_lat %>, lng: <%= ourPoint.point_long %> },
+          map: map,
+          title: '<%= ourPoint.point_name %>'
+        });
+
+        // var infowindow = new google.maps.InfoWindow({
+        // content: '<div style='float:left'><img src='<%= ourPoint.point_image %>'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>123 Address<br/> <%= ourPoint.point_description %></div>'
+        // });
+        var infowindow = new google.maps.InfoWindow({
+        content: "<div style='float:left'><img src='<%= ourPoint.point_image %>'></div><div style='float:right; padding: 10px;'><b><%= ourPoint.point_name %></b><br/>123 Address<br/> <%= ourPoint.point_description %></div>"
+        });
+
+       google.maps.event.addListener(point, 'click', (function(point, ourPoint) {
+        return function() {
+          infowindow.open(map, point);
+        }
+        }) (point, <%=ourPoint.length %>));
+    <% } %>
+
+       // point.addListener('click', function() {
+       //    infowindow.open(map, point);
+       //  });
+    //user is able to enter address to create new marker
+    var geocoder = new google.maps.Geocoder();
+    document.getElementById('submit').addEventListener('click', function() {
+      geocodeAddress(geocoder, map);
+    });
+  //if address exists, add marker to map
+  function geocodeAddress(geocoder, resultsMap) {
+    var address = document.getElementById('address').value;
+    geocoder.geocode({'address': address}, function(results, status) {
+      if (status === 'OK') {
+        storePoint(results[0].geometry.location);
+        resultsMap.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: resultsMap,
+          position: results[0].geometry.location
+        });
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }//end of geocodeAdress function
+}
+
+$(document).ready(function(){
 
       function change()
       {
@@ -135,7 +166,7 @@
 
         $.ajax({
             type: "POST",
-            url: '/points',
+            url: '/points/edit',
             data: obj
             })
             .done(function() {
@@ -146,63 +177,8 @@
               })
         }
 
-      function initMap() {
-      //initiate overall map
-        var map = new google.maps.Map(document.getElementById('map'), {
-         center: {lat: <%= latitude %>,lng: <%= longitude %>},
-         zoom: 12
-
-       });
-
-       // loop through points info to add all existing markers
-        <% for (var ourPoint of pointInfo) { %>
-            var point = new google.maps.Marker({
-              position: {lat: <%= ourPoint.point_lat %>, lng: <%= ourPoint.point_long %> },
-              map: map,
-              title: '<%= ourPoint.point_name %>'
-            });
-
-            // var infowindow = new google.maps.InfoWindow({
-            // content: '<div style='float:left'><img src='<%= ourPoint.point_image %>'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>123 Address<br/> <%= ourPoint.point_description %></div>'
-            // });
-            var infowindow = new google.maps.InfoWindow({
-            content: "<div style='float:left'><img src='<%= ourPoint.point_image %>'></div><div style='float:right; padding: 10px;'><b><%= ourPoint.point_name %></b><br/>123 Address<br/> <%= ourPoint.point_description %></div>"
-            });
-
-           google.maps.event.addListener(point, 'click', (function(point, ourPoint) {
-            return function() {
-              infowindow.open(map, point);
-            }
-            }) (point, <%=ourPoint.length %>));
-        <% } %>
-
-           // point.addListener('click', function() {
-           //    infowindow.open(map, point);
-           //  });
-        //user is able to enter address to create new marker
-        var geocoder = new google.maps.Geocoder();
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
-      //if address exists, add marker to map
-      function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === 'OK') {
-            storePoint(results[0].geometry.location);
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }//end of geocodeAdress function
-    }
-
-    document.getElementById('submit').addEventListener('click', function(){
+    $('#edit_pin_form').on('submit', function(event){
+      event.preventDefault();
       var updatedPointInfo = {
        point_id: document.getElementById('point_id').value,
        point_name: document.getElementById('point_name').value,
@@ -212,6 +188,8 @@
       }
       editPoint(updatedPointInfo);
     })
+  })
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxv_lcD-DJGOKruhMUYLFKU_LPzP1z8bQ&callback=initMap&libraries=places"></script>
 
@@ -219,22 +197,22 @@
     <p>Here is the map for a specific ID so you can see all the points and map info. YAY! ANYONE CAN SEE THIS PART</p>
 
     <h3>Update a Point</h3>
-      <form action="/">
+      <form action="/" id='edit_pin_form'>
         Point_id:<br>
-        <input type="text" name="point_id">
+        <input type="text" name="point_id" id="point_id">
         <br>
         Point Name:<br>
-        <input type="text" name="point_name">
+        <input type="text" name="point_name" id="point_name">
         <br>
         Description:<br>
-        <input type="text" name="point_description">
+        <input type="text" name="point_description" id="point_description">
         <br>
         Longitude:<br>
         <br>
-        <input type="text" name="point_long">
+        <input type="text" name="point_long" id="point_long">
         <br>Latitude<br>
-        <input type="text" name="point_lat">
-        <input type="submit" value="submit">
+        <input type="text" name="point_lat" id="point_lat">
+        <input type="submit" id='submit2' value="submit">
       </form>
 
     <p>Users can favorite this map by clicking on an icon. that will make this a Fav in the db for the authenticated user. </p>

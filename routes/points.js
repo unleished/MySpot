@@ -40,18 +40,24 @@ module.exports = (knex) => {
   });
 
   router.post("/edit", (req, res) => {
-      let update_point = {
-        point_id: req.body.id,
-        point_name: req.body.point_name,
-        point_description: req.body.point_description,
-        point_long: req.body.lng,
-        point_lat: req.body.lat,
-      }
+    console.log('req body: ', req.body);
+      // let update_point = {
+      //   point_id: req.body.point_id,
+      //   point_name: req.body.point_name,
+      //   point_description: req.body.point_description,
+      //   point_long: req.body.lng,
+      //   point_lat: req.body.lat,
+      // }
 
         Promise.all([
         knex('points')
-        .update(update_point)
-        .where(point_id, 'req.body.id')
+        // .update(update_point)
+        .update('point_name', req.body.point_name)
+        .update('point_description', req.body.point_description)
+        // .update('point_image', 'http://i.stack.imgur.com/g672i.png')
+        .update('point_lat', req.body.point_lat)
+        .update('point_long', req.body.point_long)
+        .where('point_id', req.body.point_id)
         .then(function() {
           res.status(201).send('full promises success');
         })
