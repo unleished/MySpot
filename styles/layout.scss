@@ -19,6 +19,27 @@
   text-decoration: none;
   color: inherit;
 }
+ #favorites {
+   display: flex;
+   flex-direction: row;
+   margin-top: 1em;
+   padding: .5em;
+   float:right;
+   font-size: 60px;
+   color: #3A445D;
+ }
+
+ #notfav div{
+   // font-size: 60px;
+   // color: #3A445D;
+ }
+
+ #fav div{
+   // font-size: 60px;
+   // color: #3A445D;
+   display: none;
+ }
+
 
 #hide {
   padding-top: 80px;
@@ -26,7 +47,7 @@
 
 @media (max-width: 450px){
   #wrapper {
-    
+
   }
 }
 

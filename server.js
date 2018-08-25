@@ -45,7 +45,8 @@ app.use(express.static("public"));
 app.use("/users", usersRoutes(knex));
 app.use("/maps", mapRoutes(knex));
 app.use("/points", pointRoutes(knex));
-app.use("/place", placeRoutes(knex));
+// app.use("/place", placeRoutes(knex));
+
 
 // Home page
 app.get("/", (req, res) => {

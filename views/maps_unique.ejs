@@ -3,17 +3,44 @@
   <head>
     <% include ./partials/_header.ejs %>
     <title>Map Details | MySpot</title>
-
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
-
   <body>
-    <% for (var ourMap of mapInfo) { %>
+    <div id="favorites">
+      <div id='fav'>
+        <i class="fas fa-heart"></i>
+      </div>
+      <div id='notfav'>
+        <i class="far fa-heart"></i>
+      </div>
+    </div>
+
+    <script>
+
+    $("#fav").hide();
+
+    $("#favorites").click(function() {
+      $("#notfav").hide();
+      $("#fav").show();
+    });
+
+    function favorite() {
+      $("#notfav").hide();
+      $("#fav").show();
+    };
+    </script>
+
+    <% if (hasFavorite) { %>
+
+      <script>
+      $("#fav").show();
+      $("#notfav").hide();
+
+      </script>
+
+    <% } %>
+
+
+      <% for (var ourMap of mapInfo) { %>
             <h1> <%= ourMap.map_name %></h1>
             <% var latitude = ourMap.map_lat %>
             <% var longitude = ourMap.map_long %>
@@ -21,17 +48,20 @@
 
     <div id="floating-panel">
       <input id="address" type="textbox" value="Montreal, QC">
-      <input id="submit" onclick="change()" type="button" value="Set your map center!">
+      <input id="submit" onclick="change()" type="button" value="Set Map Pin">
     </div>
     <div id="map"></div>
 
     <script>
+      function myFunction(x) {
+        x.classList.toggle("fas fa-heart");
+      }
 
       function change()
       {
         var elem = document.getElementById("submit");
-        if (elem.value=="Set your map center!") elem.value = "Set your marker!";
-        else elem.value = "Set your map center";
+        if (elem.value=="Set Map Pin") elem.value = "Set your marker!";
+        else elem.value = "Set Map Pin";
       }
       function storePoint(latlong){
          let lat = latlong.lat();

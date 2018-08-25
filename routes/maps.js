@@ -29,7 +29,44 @@ module.exports = (knex) => {
 
   });
 
+
   router.get("/:id", (req, res) => {
+
+    // function isFavMap(list) {
+
+
+
+
+
+    //   var favMap;
+    //   for (var fav of list) {
+    //     console.log("in fav loop: ", fav);
+    //     console.log("fav.map_id ", fav.map_id);
+    //     if (fav.map_id === req.params.id) {
+    //       console.log(fav.map_id)
+    //       favMap = true;
+    //     } else {
+    //       favMap = false;
+    //     }
+    //     console.log(favMap);
+    //     return favMap;
+    //   }
+    // }
+    // knex
+    //   .select("map_id")
+    //   .from("favorite")
+    //   .where(function() {
+    //     this.where("user_id", req.cookies.user_id).andWhere("map_id", req.params.id)
+    //   })
+    //   .then(function(rows) {
+    //     console.log('rows: ', rows)
+    //     return rows;
+    //   })
+    //   .catch(function (err) {
+    //     return console.error(err);
+    //   }),
+
+
 
     Promise.all([
       // this shows the map info by MAP ID
@@ -52,15 +89,35 @@ module.exports = (knex) => {
         .where('maps.id', req.params.id)
         .then(function(pointRows) {
         return pointRows;
+      }),
+
+      knex
+        .select("map_id")
+        .from("favorite")
+        .where(function() {
+          this.where("user_id", req.cookies.user_id).andWhere("map_id", req.params.id)
         })
+        .then(function(rows) {
+          console.log('rows: ', rows)
+          return rows;
+        })
+        .catch(function (err) {
+          return console.error(err);
+        })
+
     ])
     //this returns the map and map point info to the ejs
     .then((result) => {
       var mapDataObj = {
         mapInfo: result[0],
-        pointInfo: result[1]
+        pointInfo: result[1],
+        hasFavorite: result[2].length === 0 ? false : result[2]
       }
+      console.log(mapDataObj);
       res.render('maps_unique', mapDataObj);
+    })
+    .catch((err) => {
+      console.log(err);
     })
   }); //end of map id GET request
 
