@@ -79,6 +79,7 @@ module.exports = (knex) => {
 
         res.json(onePoint[0])
       })
+      // .catch(err)
     ])
 })
 
