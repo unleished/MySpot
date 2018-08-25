@@ -5,6 +5,16 @@
     <title>Map Details | MySpot</title>
   </head>
   <body>
+
+    <% for (var ourMap of mapInfo) { %>
+        <% var mapName = ourMap.map_name %>
+        <% var mapID = ourMap.id %>
+        <% var latitude = ourMap.map_lat %>
+        <% var longitude = ourMap.map_long %>
+        <% console.log('ourMap: ', ourMap)%>
+    <% } %>
+
+
     <div id="favorites">
       <div id='fav'>
         <i class="fas fa-heart"></i>
@@ -14,38 +24,45 @@
       </div>
     </div>
 
+
     <script>
-
     $("#fav").hide();
-
     $("#favorites").click(function() {
       $("#notfav").hide();
       $("#fav").show();
+      storefav();
+
     });
 
-    function favorite() {
-      $("#notfav").hide();
-      $("#fav").show();
-    };
+    function storefav(mapid){
+
+      let newFavMap = {
+        favMapId: <%= ourMap.id %>
+        };
+        //
+
+      $.ajax({
+        type: "POST",
+        url: '/favorite',
+        data: newFavMap
+      })
+      .done(function() {
+        alert( "fav success!" );
+      })
+      .fail(function() {
+        alert( "fav error" );
+      })
+    }
     </script>
 
     <% if (hasFavorite) { %>
-
       <script>
       $("#fav").show();
       $("#notfav").hide();
-
       </script>
+      <% } %>
 
-    <% } %>
-
-
-      <% for (var ourMap of mapInfo) { %>
-            <h1> <%= ourMap.map_name %></h1>
-            <% var latitude = ourMap.map_lat %>
-            <% var longitude = ourMap.map_long %>
-         <% } %>
-
+<h1> <%= mapName %></h1>
     <div id="floating-panel">
       <input id="address" type="textbox" value="Montreal, QC">
       <input id="submit" onclick="change()" type="button" value="Set Map Pin">
@@ -53,9 +70,6 @@
     <div id="map"></div>
 
     <script>
-      function myFunction(x) {
-        x.classList.toggle("fas fa-heart");
-      }
 
       function change()
       {
@@ -90,8 +104,6 @@
          zoom: 12
 
        });
-
-
 
        // loop through points info to add all existing markers
         <% for (var ourPoint of pointInfo) { %>
