@@ -75,11 +75,12 @@ module.exports = (knex) => {
       .where('point_id', req.params.id)
       // .returning('point_name')
       .then(function(onePoint) {
-        console.log('onePoint: ', onePoint)
-
-        res.json(onePoint[0])
-      })
-      // .catch(err)
+          console.log('onepoint', onePoint);
+          res.json(onePoint[0]);
+        })
+      .catch((err) => {
+      console.log(err);
+    })
     ])
 })
 

@@ -13,7 +13,7 @@
         <% var mapID = ourMap.id %>
         <% var latitude = ourMap.map_lat %>
         <% var longitude = ourMap.map_long %>
-        <% console.log('ourMap: ', ourMap)%>
+
     <% } %>
 
 
@@ -103,9 +103,9 @@ function initMap() {
         });
 
        google.maps.event.addListener(point, 'click', (function(point, ourPoint) {
-         $("#edit_pin_form input[name=point_id]").change(function(){
-            alert("The text has been changed.");
-            });;
+         // $("#edit_pin_form input[name=point_id]").change(function(){
+         //    alert("The text has been changed.");
+         //    });;
 
         return function() {
           infowindow.open(map, point);
@@ -115,13 +115,9 @@ function initMap() {
             url: '/points/'+point.id
           })
           .done( function(res) {
-            $("#pointEditForm").show();
             $('#point_id').val(res.point_id);
             $('#point_name').val(res.point_name);
             $('#point_description').val(res.point_description);
-
-
-
            })
           .fail(function() {
             alert( "failed" );
@@ -245,12 +241,12 @@ $(document).ready(function(){
     $('#edit_pin_form').on('submit', function(event){
       event.preventDefault();
 
-      // var updatedPointInfo = {
-      //  point_id: document.getElementById('point_id').value,
-      //  point_name: document.getElementById('point_name').value,
-      //  point_description: document.getElementById('point_description').value,
-      // }
-      // editPoint(updatedPointInfo);
+      var updatedPointInfo = {
+       point_id: document.getElementById('point_id').value,
+       point_name: document.getElementById('point_name').value,
+       point_description: document.getElementById('point_description').value,
+      }
+      editPoint(updatedPointInfo);
     })
 
      $('#editMap').on('submit', function(event){
