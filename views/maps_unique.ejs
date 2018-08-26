@@ -66,6 +66,7 @@
 
 <h1> <%= mapName %></h1>
 
+
     <div id="floating-panel">
       <input id="address" type="textbox" value="Montreal, QC">
       <input id="submit" onclick="change()" type="button" value="Set Map Pin">
@@ -205,6 +206,21 @@ $(document).ready(function(){
               })
         }
 
+        function editMap(update){
+        var obj = update;
+        $.ajax({
+            type: "POST",
+            url: '/maps/edit',
+            data: obj
+            })
+            .done(function() {
+              alert( "success!" );
+              })
+            .fail(function() {
+              alert( "sushi" );
+              })
+        }
+
       //   function deletePoint(delete){
       //     var deletePointobj = delete;
       //
@@ -228,12 +244,22 @@ $(document).ready(function(){
 
     $('#edit_pin_form').on('submit', function(event){
       event.preventDefault();
-      var updatedPointInfo = {
-       point_id: document.getElementById('point_id').value,
-       point_name: document.getElementById('point_name').value,
-       point_description: document.getElementById('point_description').value,
-      }
-      editPoint(updatedPointInfo);
+
+      // var updatedPointInfo = {
+      //  point_id: document.getElementById('point_id').value,
+      //  point_name: document.getElementById('point_name').value,
+      //  point_description: document.getElementById('point_description').value,
+      // }
+      // editPoint(updatedPointInfo);
+    })
+
+     $('#editMap').on('submit', function(event){
+      event.preventDefault();
+        var updateMap = {
+        map_id: <%= mapID %>,
+        map_name: document.getElementById('map_name').value
+        }
+        editMap(updateMap);
     })
   })
 
@@ -257,6 +283,13 @@ $(document).ready(function(){
       </form>
       <form action="/" id='delete_point'>
         <input type="submit" id='deletePnt' value="delete">
+      </form>
+    </div>
+    <h3>Update Map</h3>
+     <div id="editMap">
+      <form >
+        Map Name: <input type="text" name="map_name" id="map_name"><br>
+        <input type="submit" id='submit-editMap' value="submit">
       </form>
     </div>
     <p>Users can favorite this map by clicking on an icon. that will make this a Fav in the db for the authenticated user. </p>

@@ -30,7 +30,8 @@ module.exports = (knex) => {
   });
 
 
-  router.get("/:id", (req, res) => {
+   router.get("/:id", (req, res) => {
+    if (req.cookies.user_id) {
 
     Promise.all([
       // this shows the map info by MAP ID
@@ -55,6 +56,7 @@ module.exports = (knex) => {
         return pointRows;
         }),
         // this shows if a map and a user id are matched on the favorites table.
+
       knex
         .select("map_id")
         .from("favorite")
@@ -62,26 +64,35 @@ module.exports = (knex) => {
           this.where("user_id", req.cookies.user_id).andWhere("map_id", req.params.id)
         })
         .then(function(rows) {
+
           console.log('rows: ', rows)
           return rows;
         })
         .catch(function (err) {
           return console.error(err);
         })
+
     ])
     //this returns the map and map point info to the ejs
     .then((result) => {
       var mapDataObj = {
         mapInfo: result[0],
         pointInfo: result[1],
-        hasFavorite: result[2].length === 0 ? false : result[2]
+        hasFavorite: result[2].length === 0 ? false : result[2],
+        userId: req.cookies.user_id
       }
-      console.log(mapDataObj);
+
       res.render('maps_unique', mapDataObj);
     })
     .catch((err) => {
       console.log(err);
     })
+  } else {
+
+  res.render('index');
+
+  }
+
   }); //end of map id GET request
 
   router.post("/", (req, res) => {
@@ -110,6 +121,20 @@ module.exports = (knex) => {
         })
       })
     ])
+
+  })
+
+  router.post("/edit", (req, res) => {
+    console.log(req.body);
+      knex('maps')
+      .update( 'map_name', req.body.map_name)
+      .where('id', req.body.map_id)
+      .then(function() {
+          res.status(201).send('full promises success');
+        })
+      .catch((err) => {
+      console.log(err);
+    })
 
   })
 
