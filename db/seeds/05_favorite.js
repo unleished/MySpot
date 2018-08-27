@@ -9,24 +9,24 @@ exports.seed = function(knex, Promise) {
        // Inserts seed entries
        return knex("favorite").insert([
          {
-           user_id: faker.random.number({ min: 1, max: 5 }),
-           map_id: faker.random.number({ min: 1, max: 5 })
+           user_id: 1,
+           map_id: 5
          },
          {
-           user_id: faker.random.number({ min: 1, max: 5 }),
-           map_id: faker.random.number({ min: 1, max: 5 })
+           user_id: 1,
+           map_id: 2
          },
          {
-           user_id: faker.random.number({ min: 1, max: 5 }),
-           map_id: faker.random.number({ min: 1, max: 5 })
+           user_id: 2,
+           map_id: 2
          },
          {
-           user_id: faker.random.number({ min: 1, max: 5 }),
-           map_id: faker.random.number({ min: 1, max: 5 })
+           user_id: 2,
+           map_id: 4
          },
          {
-           user_id: faker.random.number({ min: 1, max: 5 }),
-           map_id: faker.random.number({ min: 1, max: 5 })
+           user_id: 4,
+           map_id: 1
          }
        ]);
      })

@@ -49,7 +49,7 @@
         data: newFavMap
       })
       .done(function() {
-        alert( "fav success!" );
+        console.log('marked as favorite!')
       })
       .fail(function() {
         alert( "fav error" );
@@ -171,7 +171,7 @@ function initMap() {
         data: data
         })
         .done(function() {
-          alert( "success!" );
+          console.log( "post to points is successful!" );
           })
         .fail(function() {
           alert( "error" );
@@ -183,7 +183,6 @@ function initMap() {
 
     geocoder.geocode({'address': address}, function(results, status) {
       if (status === 'OK') {
-        alert('found address!');
         storePoint(results[0].geometry.location);
         resultsMap.setCenter(results[0].geometry.location);
         var marker = new google.maps.Marker({
@@ -214,7 +213,7 @@ $(document).ready(function(){
             data: obj
             })
             .done(function() {
-              alert( "success!" );
+              console.log( "point edit success!" );
               })
             .fail(function() {
               alert( "error" );
