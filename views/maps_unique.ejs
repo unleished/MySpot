@@ -150,6 +150,7 @@ function initMap() {
     //user is able to enter address to create new marker
     var geocoder = new google.maps.Geocoder();
     document.getElementById('addPinsubmit').addEventListener('click', function() {
+      event.preventDefault();
       geocodeAddress(geocoder, map);
     });
   //if address exists, add marker to map
@@ -178,15 +179,16 @@ function initMap() {
   }
 
   function geocodeAddress(geocoder, resultsMap) {
-    var address = document.getElementById('address').value;
+  var address = document.getElementById('address').value;
+
     geocoder.geocode({'address': address}, function(results, status) {
       if (status === 'OK') {
-        storePoint(results[0].geometry.location, results[0].formatted_address);
+        alert('found address!');
+        storePoint(results[0].geometry.location);
         resultsMap.setCenter(results[0].geometry.location);
         var marker = new google.maps.Marker({
           map: resultsMap,
-          position: results[0].geometry.location,
-          address: results[0].formatted_address
+          position: results[0].geometry.location
         });
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
