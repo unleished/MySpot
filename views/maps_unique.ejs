@@ -64,19 +64,22 @@
       </script>
       <% } %>
 
-<h1 id='pageTitle'> <%= mapName %></h1>
+<h1 id='pageTitle'><%= mapName %> <i class="far fa-edit"></i></h1>
 
 
     <div id="floating-panel">
-        <form action="/" id='addPinForm'>
-          Point Name:<br>
-          <input type="text" name="point_name" id="createpoint_name" placeholder="Pin Name">
-          <br>
-          Description:<br>
-          <input type="text" name="point_description" id="createpoint_description" placeholder="Description">
-      <input id="address" type="textbox" value="Montreal, QC">
-      <input id="addPinsubmit" type="submit" value="Set Map Pin">
-    </form>
+      <form action="/" id='addPinForm'>
+        <label for="name">Point Name:</label>
+        <input type="text" name="point_name" id="createpoint_name" placeholder="Pin Name">
+        <br>
+        <label for="description">Point Description:</label>
+        <input type="text" name="point_description" id="createpoint_description" placeholder="Description">
+        <br>
+        <label for="location">Point Location:</label>
+        <input id="address" type="textbox" placeholder="Montreal, QC">
+        <br>
+        <input id="addPinsubmit" type="submit" value="Set Map Pin">
+      </form>
     </div>
     <div id="map"></div>
 
@@ -308,13 +311,14 @@ $(document).ready(function(){
       <h3>Update a Point</h3>
       <div id="pointEditForm">
         <form action="/" id='edit_pin_form'>
-          Point ID: <input type="text" name="point_id" id="point_id" value="<%= ourPoint.point_id %>" readonly>
+          <label for="pointidlabel">Point ID:</label>
+          <input type="text" name="point_id" id="point_id" value="<%= ourPoint.point_id %>" readonly>
           <br>
-          Point Name:<br>
+          <label for="pointnamelabel">Name:</label>
           <input type="text" name="point_name" id="point_name" value="<%= ourPoint.point_name %>">
           <br>
-          Description:<br>
-          <input type="text" name="point_description" id="point_description" value="<%= ourPoint.point_description %>">
+          <label for="pointdesclabel">Description:</label>
+          <input type="text" name="point_description" id="point_description" value="<%= ourPoint.point_description %>"><br>
           <input type="submit" id='submit2' value="submit">
         </form>
         <form action="/" id='delete_point'>
@@ -324,7 +328,7 @@ $(document).ready(function(){
       <h3>Update Map</h3>
        <div id="editMap">
         <form >
-          Map Name: <input type="text" name="map_name" id="map_name"><br>
+          <label for="mapnamelabel">Name:</label><input type="text" name="map_name" id="map_name"><br>
           <input type="submit" id='submit-editMap' value="submit">
         </form>
       </div>

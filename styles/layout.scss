@@ -11,6 +11,10 @@
   padding: 0 2em;
 }
 
+#hide {
+  padding-top: 80px;
+}
+
 #nav h1{
   color: white;
 }
@@ -19,6 +23,7 @@
   text-decoration: none;
   color: inherit;
 }
+
  #favorites {
    display: flex;
    flex-direction: row;
@@ -29,33 +34,15 @@
    color: #3A445D;
  }
 
- #notfav div{
-   // font-size: 60px;
-   // color: #3A445D;
- }
-
- #fav div{
-   // font-size: 60px;
-   // color: #3A445D;
-   display: none;
- }
-
  #title{
-  display: inline-block;
+   display: flex;
+   flex-direction: row;
+   margin-top: 1em;
+   padding: .5em;
  }
 
  #edit-pencil{
  margin-left: 100px;
-}
-
-#hide {
-  padding-top: 80px;
-}
-
-@media (max-width: 450px){
-  #wrapper {
-
-  }
 }
 
 #wrapper {
@@ -71,6 +58,7 @@
   margin: .5em;
   padding: 1em;
 }
+
 #right {
   // flex: 1;
   align-items: center;
@@ -96,11 +84,36 @@ h1, h2 {
 
 #floating-panel {
   padding: .5em;
+
 }
 
-#floating-panel  input{
+label{
+  //display: inline-block;
+  font-size: 18px;
+  display: block;
+  margin: 8px 0px 8px 0px;
+}
+
+// #floating-panel
+input{
+  width: 60%;
+  padding: 8px 15px 8px 15px;
   border-radius: 3px;
 }
+
+input[type=submit],input[type=button] {
+    border-color: #3A445D;
+    padding: 8px 15px 8px 15px;
+    margin: .5em 0 .5em .0;
+    width: 35%;
+    border-radius: 3px;
+}
+
+// button {
+//
+//   width: 40%;
+//   border-radius: 3px;
+// }
 
 #map {
   border-radius: 10px;
