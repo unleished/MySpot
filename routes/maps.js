@@ -86,17 +86,60 @@ module.exports = (knex) => {
         hasFavorite: result[2].length === 0 ? false : result[2],
         userId: req.cookies.user_id
       }
-      
+
       res.render('maps_unique', mapDataObj);
     })
     .catch((err) => {
       console.log(err);
     })
   } else {
+// NO USER ID
+    Promise.all([
+      // this shows the map info by MAP ID
+      knex
+        .select("*")
+        .from("maps")
+        .where('id', req.params.id)
+        .then(function(rows) {
+        return rows;
+        })
+        .catch(function (err) {
+          return console.error(err);
+        }),
 
-  res.render('index');
+      // this shows point data based on the MAP ID in the joined map_points table.
+      knex('maps')
+        .select('points.point_id', 'points.point_name', 'points.point_description', 'points.point_long', 'points.point_lat')
+        .join('map_points', 'maps.id', '=', 'map_points.map_id')
+        .join('points', 'points.point_id', '=', 'map_points.point_id')
+        .where('maps.id', req.params.id)
+        .then(function(pointRows) {
+        return pointRows;
+        })
+        // this shows if a map and a user id are matched on the favorites table.
 
-  }
+    ])
+    //this returns the map and map point info to the ejs
+    .then((result) => {
+
+      var mapDataObj = {
+        mapInfo: result[0],
+        pointInfo: result[1],
+        hasFavorite: false,
+        userId: ''
+
+      }
+
+      res.render('maps_unique', mapDataObj);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+
+  // res.render('index');
+
+}//close of else statement
 
   }); //end of map id GET request
 

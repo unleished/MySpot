@@ -64,7 +64,7 @@
       </script>
       <% } %>
 
-<h1 id='pageTitle'><%= mapName %>  <i class="far fa-edit"></i></h1>
+<h1 id='pageTitle'><%= mapName %>  <% if (userId) { %><i class="far fa-edit"></i><% } %></h1>
 
 
     <div id="floating-panel">
@@ -334,9 +334,11 @@ $(document).ready(function(){
   </div>
   <script>
   $("#editMapDetails").hide();
+  <% if (userId) { %>
   $("#pageTitle").click(function() {
     $("#editMapDetails").show();
   })
+<% } %>
   </script>
 
 
