@@ -101,7 +101,8 @@ input{
   border-radius: 3px;
 }
 
-input[type=submit],input[type=button] {
+input[type=submit],
+input[type=button] {
     border-color: #3A445D;
     padding: 8px 15px 8px 15px;
     margin: .5em 0 .5em .0;
@@ -109,6 +110,11 @@ input[type=submit],input[type=button] {
     border-radius: 3px;
 }
 
+input[type=submit]:hover,
+input[type=button]:hover {
+background: #3A445D;
+    color: white;
+  }
 // button {
 //
 //   width: 40%;

@@ -75,13 +75,18 @@ module.exports = (knex) => {
     ])
     //this returns the map and map point info to the ejs
     .then((result) => {
+      var emptyPoint = {
+        point_id: 0,
+       point_name: 'name',
+       point_description: 'description'}
+
       var mapDataObj = {
         mapInfo: result[0],
         pointInfo: result[1],
         hasFavorite: result[2].length === 0 ? false : result[2],
         userId: req.cookies.user_id
       }
-
+      
       res.render('maps_unique', mapDataObj);
     })
     .catch((err) => {
