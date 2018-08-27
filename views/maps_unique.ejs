@@ -205,31 +205,6 @@ $(document).ready(function(){
         if (elem.value=="Set Map Pin") elem.value = "Set your marker!";
         else elem.value = "Set Map Pin";
       }
-      // function storePoint(latlong){
-      //    let lat = latlong.lat();
-      //    let lng = latlong.lng();
-      //
-      //    let img = addImage();
-      //    let data = {
-      //               id: '<%=mapID %>',
-      //               name: 'Point',
-      //               description: 'Description',
-      //               image: img,
-      //               lng: lng,
-      //               lat: lat
-      //               };
-      //    $.ajax({
-      //       type: "POST",
-      //       url: '/points',
-      //       data: data
-      //       })
-      //       .done(function() {
-      //         alert( "success!" );
-      //         })
-      //       .fail(function() {
-      //         alert( "error" );
-      //         })
-      // }
       function editPoint(update){
         var obj = update;
 
@@ -313,13 +288,13 @@ $(document).ready(function(){
       <div id="pointEditForm">
         <form action="/" id='edit_pin_form'>
           <label for="pointidlabel">Point ID:</label>
-          <input type="text" name="point_id" id="point_id" value="<%= ourPoint.point_id %>" readonly>
+          <input type="text" name="point_id" id="point_id" <% if (ourPoint) { %> value="<%= ourPoint.point_id %>"<%}%> value="" readonly>
           <br>
           <label for="pointnamelabel">Name:</label>
           <input type="text" name="point_name" id="point_name" value="<%=pointName %>">
           <br>
           <label for="pointdesclabel">Description:</label>
-          <input type="text" name="point_description" id="point_description" value="<%= ourPoint.point_description %>"><br>
+          <input type="text" name="point_description" id="point_description" <% if (ourPoint) { %> value="<%= ourPoint.point_description %>" <%}%> value=""><br>
           <input type="submit" id='submit2' value="submit">
         </form>
         <form action="/" id='delete_point'>
