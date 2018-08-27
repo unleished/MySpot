@@ -40,6 +40,13 @@
    display: none;
  }
 
+ #title{
+  display: inline-block;
+ }
+
+ #edit-pencil{
+ margin-left: 100px;
+}
 
 #hide {
   padding-top: 80px;
@@ -91,11 +98,7 @@ h1, h2 {
   padding: .5em;
 }
 
-#address {
-  border-radius: 3px;
-}
-
-#submit {
+#floating-panel  input{
   border-radius: 3px;
 }
 

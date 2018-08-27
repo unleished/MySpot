@@ -125,12 +125,13 @@ module.exports = (knex) => {
   })
 
   router.post("/edit", (req, res) => {
-    console.log(req.body);
       knex('maps')
       .update( 'map_name', req.body.map_name)
       .where('id', req.body.map_id)
       .then(function() {
           res.status(201).send('full promises success');
+          // res.redirect('/maps/'+req.body.map_id)
+          // res.redirect('back')
         })
       .catch((err) => {
       console.log(err);

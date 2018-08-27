@@ -14,8 +14,8 @@ module.exports = (knex) => {
 
     let new_point = {
       point_id: id,
-      point_name: "Point new",
-      point_description: "description",
+      point_name: req.body.name,
+      point_description: req.body.description,
       point_long: req.body.lng,
       point_lat: req.body.lat,
     }
