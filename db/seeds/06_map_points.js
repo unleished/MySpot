@@ -9,11 +9,11 @@ exports.seed = function(knex, Promise) {
        // Inserts seed entries
        return knex("map_points").insert([
          {
-           map_id: 3,
+           map_id: 1,
            point_id: 11
          },
          {
-           map_id: 3,
+           map_id: 1,
            point_id: 12
          },
          {
