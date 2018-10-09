@@ -27,3 +27,7 @@
 
 - Node 5.10.x or above
 - NPM 3.8.x or above
+
+## Contributors
+Leisha Magsisi - https://github.com/unleished
+Linh Le Kim - https://github.com/lleki
